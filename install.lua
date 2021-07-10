@@ -27,7 +27,7 @@ if not database:get(Server_Done.."Token_Write") then
 print('\27[0;31m\n ارسل لي توكن البوت الان ↓ :\na┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉ ┉\n\27')
 local token = io.read()
 if token ~= '' then
-data,res = https.request("https://vvvzvv.ml/index/BoykA.php?p=BoykATEAM")
+data,res = https.request("https://boyka-api.ml/index.php?p=BOYKA-DeV")
 if res == 200 then
 tr = json:decode(data)
 if tr.Info.info == 'Is_Spam' then
