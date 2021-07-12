@@ -10115,7 +10115,7 @@ local Teext =[[
 *✬~⪼ تغير امر الاوامر*
 *✬~⪼ تغير امر م1 ~ الئ م10*
 *ٴ•━━━━━━ ʙᴏʏ ━━━━━━━•*
-[⍆ 𝘛𝘌𝘓𝘈𝘕?? 𝘛𝘦𝘈𝘮](t.me/BOBBW)
+[- sᴏᴜʀᴄʀ ʙᴏʏᴋᴀ](t.me/BOBBW)
 ]]
 keyboard = {} 
 keyboard.inline_keyboard = {
