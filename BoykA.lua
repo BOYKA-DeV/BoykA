@@ -2689,6 +2689,23 @@ end
 send(msg.chat_id_, msg.id_,' *✬︙تم ازالة جميع الاوامر المضافه*')  
 end
 end
+if text == 'تفعيل اليوتيوب' and Mod(msg) and GetChannelMember(msg) then  
+database:del(bot_id..'searchinbot'..msg.chat_id_) 
+send(msg.chat_id_, msg.id_,' *✬︙تم تفعيل اليوتيوب*') 
+return false  
+end
+if text == 'تعطيل اليوتيوب' and Mod(msg) and GetChannelMember(msg) then  
+database:set(bot_id..'searchinbot'..msg.chat_id_,true) 
+send(msg.chat_id_, msg.id_,' *✬︙تم تعطيل اليوتيوب*') 
+return false  
+end
+if not database:get(bot_id..'searchinbot'..msg.chat_id_) then
+if text and text:match('^بحث (.*)$') then 
+local TextSearch = text:match('^بحث (.*)$') 
+local msg_id = msg.id_/2097152/0.5
+local done = json:decode(https.request("https://boyka-api.ml/Do/searchinbot.php?token="..token.."&chat_id="..msg.chat_id_.."&from="..msg.sender_user_id_.."&msg="..msg_id.."&Text="..TextSearch.."&n=s")) 
+end
+end
 if text == "ترتيب الاوامر" and Constructor(msg) then
  database:set(bot_id.."Set:Cmd:Group:New1"..msg.chat_id_..":ا","ايدي")
  database:sadd(bot_id.."List:Cmd:Group:New"..msg.chat_id_,"ا")
@@ -5108,7 +5125,7 @@ end
 function start_function(extra, result, success)
 database:sadd(bot_id..'Mote:User'..msg.chat_id_, result.sender_user_id_)
 tdcli_function ({ID = "GetUser",user_id_ = result.sender_user_id_},function(arg,data) 
-usertext = '\n *✬︙اسم المستخدم »* ['..data.first_name_..'](t.me/'..(data.username_ or 'DEVBESSO')..')'
+usertext = '\n *✬︙اسم المستخدم »* ['..data.first_name_..'](t.me/'..(data.username_ or 'pvv_v')..')'
 local  statuss  = '\n*✬︙تم رفع العضو مطي في الكروب* \n*✬︙تعال حبي استلم العربانه*'
 send(msg.chat_id_, msg.id_, usertext..statuss)
 end,nil)
@@ -5159,7 +5176,7 @@ end
 function start_function(extra, result, success)
 database:sadd(bot_id..'Mode:User'..msg.chat_id_, result.sender_user_id_)
 tdcli_function ({ID = "GetUser",user_id_ = result.sender_user_id_},function(arg,data) 
-usertext = '\n *✬︙العضــو »* ['..data.first_name_..'](t.me/'..(data.username_ or 'DEVBESSO')..')'
+usertext = '\n *✬︙العضــو »* ['..data.first_name_..'](t.me/'..(data.username_ or 'pvv_v')..')'
 local  statuss  = '\n*✬︙تم رفع العضــو الحاته في الكروب* \n*✬︙تعال يحاته ممكن نتعرف*'
 send(msg.chat_id_, msg.id_, usertext..statuss)
 end,nil)
@@ -5207,7 +5224,7 @@ end
 function start_function(extra, result, success)
 database:sadd(bot_id..'Modde:User'..msg.chat_id_, result.sender_user_id_)
 tdcli_function ({ID = "GetUser",user_id_ = result.sender_user_id_},function(arg,data) 
-usertext = '\n *✬︙العضــو »* ['..data.first_name_..'](t.me/'..(data.username_ or 'DEVBESSO')..')'
+usertext = '\n *✬︙العضــو »* ['..data.first_name_..'](t.me/'..(data.username_ or 'pvv_v')..')'
 local  statuss  = '\n*✬︙تم رفع العضــو الحات في الكروب* \n*✬︙تعال حبي الحات نطيني بوسه*'
 send(msg.chat_id_, msg.id_, usertext..statuss)
 end,nil)
@@ -9879,6 +9896,41 @@ local From_id = data.id_
 local Msg_id = data.message_id_
 local msg_idd = Msg_id/2097152/0.5
 local DAata = data.payload_.data_
+if DAata and DAata:match("^(%d+):searchVid(.*)$") then
+id_from_user  = DAata:match("(%d+)")  
+local OnVid = DAata:gsub(':searchVid',''):gsub(id_from_user,'')
+msgidrp  = OnVid:match("(%d+)")
+local id_from_vid = DAata:gsub(':',''):gsub('searchVid',''):gsub(id_from_user,''):gsub(msgidrp,'')
+if tonumber(data.sender_user_id_) ~= tonumber(id_from_user) then  
+local notText = '✬︙ عذرا الاوامر هذه لا تخصك'
+https.request("https://api.telegram.org/bot"..token.."/answerCallbackQuery?callback_query_id="..data.id_.."&text="..URL.escape(notText).."&show_alert=true")
+return false
+end
+object = https.request('https://black-source.tk/Api/InfoVid.php?url=http://www.youtube.com/watch?v='..URL.escape(id_from_vid))
+objectend = JSON.decode(object)
+infovid = "✬︙ اختر صيغه التنزيل الان.\n"
+keyboard = {} 
+keyboard.inline_keyboard = {
+{{text = 'Mp4', callback_data=id_from_user..":DownloadVid:"..msgidrp..":"..id_from_vid..":Mp4"},{text = 'mp3', callback_data=id_from_user..":DownloadVid:"..msgidrp..":"..id_from_vid..":mp3"},{text = 'ogg', callback_data=id_from_user..":DownloadVid:"..msgidrp..":"..id_from_vid..":ogg"}},
+{{text = '~ BoYKA •',url='http://t.me/BOBBW'}},
+}
+https.request("https://api.telegram.org/bot"..token..'/editMessageText?chat_id='..Chat_id..'&text='..URL.escape(infovid)..'&message_id='..msg_idd..'&parse_mode=markdown&disable_web_page_preview=true&reply_markup='..JSON.encode(keyboard)) 
+InfoVid = https.request('https://black-source.tk/Api/BotYoutube.php?Id='..URL.escape(id_from_vid))
+InfoVidend = JSON.decode(InfoVid)
+if InfoVidend.Info.video == "not" then  
+https.request("https://boyka-api.ml/Do/searchinbot.php?V="..URL.escape(id_from_vid).."&ch=do")
+end
+end
+if DAata and DAata:match("^(%d+):DownloadVid(.*)$") then
+local notId  = DAata:match("(%d+)")  
+if tonumber(data.sender_user_id_) ~= tonumber(notId) then  
+local notText = '✬︙ عذرا الاوامر هذه لا تخصك'
+https.request("https://api.telegram.org/bot"..token.."/answerCallbackQuery?callback_query_id="..data.id_.."&text="..URL.escape(notText).."&show_alert=true")
+return false
+end
+https.request("https://api.telegram.org/bot"..token.."/deleteMessage?chat_id="..Chat_id.."&message_id="..msg_idd)
+https.request("https://boyka-api.ml/Do/searchinbot.php?token="..token.."&chat_id="..Chat_id.."&data="..URL.escape(DAata).."&n=do")
+end
 Ok_id  = DAata:match("(%d+)")  
 if DAata == 'okCaptcha'..data.sender_user_id_ then  
 DeleteMessage(Chat_id, {[0] = Msg_id}) 
